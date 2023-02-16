@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+        <table class="table table-striped" style="margin-left: 8%; width: 85%">
+            <thead>
+                <tr>
+                    <th class="text-start">Symbol</th>
+                    <th class="text-start">Name</th>
+                    <th class="text-start" style="text-align: right!important;">Shares</th>
+                    <th class="text-start" style="text-align: right!important;">Price</th>
+                    <th class="text-start" style="text-align: right!important;">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr>
+                        <td class="text-start">{{ stock[0] }}</td>
+                        <td class="text-start">{{ stock[1] }}</td>
+                        <td class="text-start" style="text-align: right!important;">{{ stock[3] }}</td>
+                        <td class="text-start" style="text-align: right!important;">{{ stock[2] }}</td>
+                        <td class="text-start" style="text-align: right!important;">{{ stock[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+                    <td class="border-0 text-end">{{ cash }}</td>
+                </tr>
+                <tr>
+                    <td class="border-0 fw-bold text-end" colspan="4">TOTAL</td>
+                    <td class="border-0 text-end">{{ total }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div>
+            <h1>Deposit funds</h1>
+            <form action="/" method="post">
+                <div class="mb-3">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto"
+                    name="number" placeholder="Credit card number" type="number" style="margin-top: 25px;">
+                    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" min="100"
+                    name="amount" placeholder="Amount ($)" type="number" style="margin-top: 12px;">
+                </div>
+                <button class="btn btn-primary" type="Deposit">Deposit</button>
+            </form>
+        </div>
+{% endblock %}
