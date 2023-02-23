@@ -27,7 +27,7 @@ db = SQL("sqlite:///finance.db")
 
 # Make sure API key is set
 #if not os.environ.get("API_KEY"):
-#    raise RuntimeError("API_KEY not set")
+#   raise RuntimeError("API_KEY not set")
 
 
 @app.after_request
@@ -173,16 +173,16 @@ def buy():
             return apology("insufficient funds", 403)
 
         # query portfolio table for row with this userid and stock symbol:
-        row = db.execute("SELECT * FROM portfolio WHERE userid = :id AND symbol = :symbol",
+        row = db.execute("SELECT * FROM portofolios WHERE client_id = :id AND symbol = :symbol",
                          id=session["user_id"], symbol=symbol)
 
         # if row doesn't exist yet, create it but don't update shares
         if len(row) != 1:
-            db.execute("INSERT INTO portfolio (userid, symbol) VALUES (:id, :symbol)",
-                       id=session["user_id"], symbol=symbol)
+            db.execute("INSERT INTO portofolios (client_id, symbol, name, shares) VALUES (:id, :symbol, :name, 0)",
+                       id=session["user_id"], symbol=symbol, name=quote['name'])
 
         # get previous number of shares owned
-        oldshares = db.execute("SELECT shares FROM portfolio WHERE userid = :id AND symbol = :symbol",
+        oldshares = db.execute("SELECT shares FROM portofolios WHERE client_id = :id AND symbol = :symbol",
                                id=session["user_id"], symbol=symbol)
         oldshares = oldshares[0]["shares"]
 
@@ -190,7 +190,7 @@ def buy():
         newshares = oldshares + shares
 
         # update shares in portfolio table
-        db.execute("UPDATE portfolio SET shares = :newshares WHERE userid = :id AND symbol = :symbol",
+        db.execute("UPDATE portofolios SET shares = :newshares WHERE client_id = :id AND symbol = :symbol",
                    newshares=newshares, id=session["user_id"], symbol=symbol)
 
         # update cash balance in users table
@@ -198,8 +198,8 @@ def buy():
                    remainder=remainder, id=session["user_id"])
 
         # update history table
-        db.execute("INSERT INTO history (userid, symbol, shares, method, price) VALUES (:userid, :symbol, :shares, 'Buy', :price)",
-                   userid=session["user_id"], symbol=symbol, shares=shares, price=quote['price'])
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, type, price) VALUES (:user_id, :symbol, :shares, 'Buy', :price)",
+                   user_id=session["user_id"], symbol=symbol, shares=shares, price=quote['price'])
 
         # redirect to index page
         flash("Bought!")
