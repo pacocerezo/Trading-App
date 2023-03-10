@@ -1,12 +1,14 @@
 # TRADING APP
 
+![MAIN](https://user-images.githubusercontent.com/111921924/224284867-7ea7bf41-8ff5-437d-a25c-f54589d93c7f.png)
+
 #### https://trading-app-w0m0.onrender.com/login
 
 (Testing: Username & password-> david)
 
-#### Description: Flask application built with Python that allows you to paper trade with live data provided by IEX API.
+#### Description:
 
-![MAIN](https://user-images.githubusercontent.com/111921924/224284867-7ea7bf41-8ff5-437d-a25c-f54589d93c7f.png)
+Flask application built with Python that allows you to paper trade with live data provided by IEX API.
 
 ## Motivation:
 
